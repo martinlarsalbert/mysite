@@ -11,3 +11,16 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+<button onclick="window.location.href='/polls/pdf'">PDF</button>
+<img id='mpl-img' class='img img-responsive' src='/polls/plot' style='margin: 10px; border: 3px solid #f16446;'/>
+<script>
+function generate_mpl_img()
+{
+    location.reload();
+}
+</script>
+
+<button type='button' class='btn btn-success center-block' onclick='generate_mpl_img()'>
+   Regenerate <i class="fa fa-refresh"></i>
+</button>
