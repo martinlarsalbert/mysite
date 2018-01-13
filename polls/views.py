@@ -111,7 +111,7 @@ from numpy.random import rand
 
 import io
 
-def get_image(request):
+def get_image(request,value = 0.0):
    """
    This is an example script from the Matplotlib website, just to show
    a working sample >>>
@@ -122,6 +122,9 @@ def get_image(request):
    colors = np.random.rand(N)
    area = np.pi * (15 * np.random.rand(N))**2 # 0 to 15 point radiuses
    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+   if value is None:
+       value = '0.0'
+   plt.text(0,0,'%s' % value)
    """
    Now the redirect into the cStringIO or BytesIO object >>>
    """
@@ -133,3 +136,89 @@ def get_image(request):
    mime type with the plot format (in this case, PNG) and return >>>
    """
    return HttpResponse(f.getvalue(), content_type="image/png")
+
+def get_plot(request,k = 1.0):
+   """
+   This is an example script from the Matplotlib website, just to show
+   a working sample >>>
+   """
+
+   if request.method == 'POST':
+       # create a form instance and populate it with data from the request:
+       k = float(request.POST['k'])
+
+   x = np.linspace(0,1,100)
+   y = x**(k)
+
+   fig,ax = plt.subplots()
+   ax.plot(x,y,'b-')
+   ax.set_title('y = x^%0.2f' % k)
+
+   """
+   Now the redirect into the cStringIO or BytesIO object >>>
+   """
+   f = io.BytesIO()           # Python 3
+   fig.savefig(f, format="png", facecolor=(0.95,0.95,0.95))
+   plt.clf()
+   """
+   Add the contents of the StringIO or BytesIO object to the response, matching the
+   mime type with the plot format (in this case, PNG) and return >>>
+   """
+   return HttpResponse(f.getvalue(), content_type="image/png")
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+class QuestionCreate(CreateView):
+    model = Question
+    fields = ['question_text']
+
+class QuestionUpdate(UpdateView):
+    model = Question
+    fields = ['question_text']
+
+class QuestionDelete(DeleteView):
+    model = Question
+    success_url = reverse_lazy('author-list')
+
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+
+from .forms import NameForm
+
+def get_name(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NameForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+
+    return render(request, 'polls/name.html', {'form': form})
+
+from .forms import PlotForm
+def get_k(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = PlotForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = PlotForm()
+
+    return render(request, 'polls/plot_k.html', {'form': form})

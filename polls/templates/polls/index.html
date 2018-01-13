@@ -13,14 +13,19 @@
 {% endif %}
 
 <button onclick="window.location.href='/polls/pdf'">PDF</button>
-<img id='mpl-img' class='img img-responsive' src='/polls/plot' style='margin: 10px; border: 3px solid #f16446;'/>
+<img id='mpl-img' class='img img-responsive' src='/polls/plot/' style='margin: 10px; border: 0px solid #f16446;'/>
 <script>
-function generate_mpl_img()
+function generate_mpl_img2()
 {
     location.reload();
 }
+function generate_mpl_img()
+{
+   var url = "polls/plot/" + Math.random().toString();
+   $("#mpl-img").attr("src",url);
+}
 </script>
 
-<button type='button' class='btn btn-success center-block' onclick='generate_mpl_img()'>
+<button type='button' class='btn btn-success center-block' onclick='generate_mpl_img2()'>
    Regenerate <i class="fa fa-refresh"></i>
 </button>
