@@ -222,3 +222,7 @@ def get_k(request):
         form = PlotForm()
 
     return render(request, 'polls/plot_k.html', {'form': form})
+
+def welcome(request):
+
+    return render(request, 'polls/welcome.html')
