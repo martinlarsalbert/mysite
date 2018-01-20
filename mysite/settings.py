@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-from secret import *
+from .secret_settings import *
 
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','marale.pythonanywhere.com']
