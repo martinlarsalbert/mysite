@@ -135,3 +135,5 @@ EMAIL_PORT = 1025
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+STATIC_ROOT = "/home/marale/mysite/static"
+
