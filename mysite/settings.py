@@ -19,11 +19,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'n+k65va-jzq(i6=3&q5o+o^yml#s$_j=9$1=cqj%821j=rtr+-'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+from secret import *
+
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','marale.pythonanywhere.com']
 
