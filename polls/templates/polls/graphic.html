@@ -1,0 +1,66 @@
+
+<style>
+input {
+    font-size: 30px;
+}
+
+table {
+    border-collapse:collapse;
+    width:100%;
+    max-width:700px;
+    min-width:400px;
+    text-align:center;
+}
+
+caption {
+    caption-side:bottom;
+    font-weight:bold;
+    font-style:italic;
+    margin:4px;
+}
+
+table,th, td {
+    border: 1px solid gray;
+}
+
+th, td {
+    height: 24px;
+    padding:4px;
+    vertical-align:middle;
+}
+
+th {
+    background-image:url(table-shaded.png);
+}
+
+.rowtitle {
+    font-weight:bold;
+}
+
+</style>
+
+{% block title %}
+<H1> Polynomial plotter </H1>
+{% endblock %}
+
+{% block subtitle %}
+    <H2>Change the parameters...</H2>
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+
+        {{ figure|safe }}
+
+    </div>
+{% endblock %}
+
+<form action="{% url 'polls:simple'%}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+<b> {{ df|safe }} </b>
+
+

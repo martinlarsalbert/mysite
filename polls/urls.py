@@ -20,6 +20,7 @@ urlpatterns = [
     path('name', views.get_name, name='get-name'),
 
     path('plot_k', views.get_k, name='get-k'),
+    path('simple',views.simple,name = 'simple')
 
 
 ]

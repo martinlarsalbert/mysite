@@ -5,6 +5,7 @@ from django.views import generic
 
 from .models import Choice, Question
 from django.utils import timezone
+import pandas as pd
 
 import pdb
 
@@ -140,6 +141,66 @@ def get_image(request,value = 0.0):
    """
    return HttpResponse(f.getvalue(), content_type="image/png")
 
+def simple_calc(k = 1,x_min = 0,x_max = 1,N = 10):
+
+    df = pd.DataFrame()
+    df['x'] = x = np.linspace(x_min, x_max, N)
+    df['y'] = x ** k
+    df['k'] = k
+
+    return df
+
+def simple_plot(df):
+    from matplotlib.figure import Figure
+
+    fig=Figure()
+    ax=fig.add_subplot(111)
+
+    df.plot(x='x',y='y',style = 'b.-',ax = ax)
+    ax.grid(True)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    k = df.iloc[0]['k']
+    ax.set_title('Y = X^%0.2f' % k)
+
+    return fig
+
+def simple(request):
+    import random
+    import datetime
+
+    from matplotlib.dates import DateFormatter
+    import mpld3
+    from django.shortcuts import render
+
+    x_min = 0
+    x_max = 1
+    k = 1
+    N = 10
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = PlotForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            x_min = float(request.POST['x_min'])
+            x_max = float(request.POST['x_max'])
+            k = float(request.POST['k'])
+            N = int(request.POST['N'])
+    else:
+        # if a GET (or any other method) we'll create a blank form
+        form = PlotForm(initial={'k': 1,'x_min': 0,'x_max':1,'N':10})
+
+    df = simple_calc(k=k,x_min = x_min,x_max=x_max,N=N)
+    fig = simple_plot(df = df)
+
+    fig_html = mpld3.fig_to_html(fig)
+    df_html = df.to_html()
+
+    return render(request,'polls/graphic.html',{'figure':fig_html,
+                                                'form':form,
+                                                'df':df_html})
+
 def get_plot(request,k = 1.0):
    """
    This is an example script from the Matplotlib website, just to show
@@ -154,7 +215,7 @@ def get_plot(request,k = 1.0):
    y = x**(k)
 
    fig,ax = plt.subplots()
-   ax.plot(x,y,'b-')
+   ax.plot(x,y)
    ax.set_title('y = x^%0.2f' % k)
 
    """

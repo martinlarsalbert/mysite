@@ -17,7 +17,7 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 
-from django.conf.urls import  url
+from django.conf.urls import url
 
 import polls.views
 
