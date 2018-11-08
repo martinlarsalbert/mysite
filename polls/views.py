@@ -295,10 +295,11 @@ import csv
 
 from django.http import FileResponse
 from django.contrib.staticfiles.storage import staticfiles_storage
+import os.path
 
 def csv_view(request):
 
-    url = staticfiles_storage.url('cars_publish.csv')
+    url = "/var/www/example.com/static/cars_publish.csv"
 
     response = FileResponse(open(url, 'rb'))
 
