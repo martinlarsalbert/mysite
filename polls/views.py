@@ -290,3 +290,16 @@ def get_k(request):
 def welcome(request):
 
     return render(request, 'polls/welcome.html')
+
+import csv
+
+from django.http import FileResponse
+from django.contrib.staticfiles.storage import staticfiles_storage
+
+def csv_view(request):
+
+    url = staticfiles_storage.url('cars_publish.csv')
+
+    response = FileResponse(open(url, 'rb'))
+
+    return response

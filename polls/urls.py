@@ -20,7 +20,7 @@ urlpatterns = [
     path('name', views.get_name, name='get-name'),
 
     path('plot_k', views.get_k, name='get-k'),
-    path('simple',views.simple,name = 'simple')
-
+    path('simple',views.simple,name = 'simple'),
+    path('csv', views.csv_view, name='csv_view')
 
 ]
